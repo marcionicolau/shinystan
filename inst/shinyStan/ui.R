@@ -244,6 +244,15 @@ shinyUI(
                                    
                       )
              ),
+             #### TAB: My Plots (for user's own plots)  ####
+             tabPanel(title = "My plots",
+                      tabsetPanel(
+                        tabPanel(
+                          uiOutput("ui_upload_images"),
+                          uiOutput("ui_my_plots_tabset")
+                        )
+                      )
+             ),
              #### MENU: More ####
              navbarMenu(title = "More",
                         

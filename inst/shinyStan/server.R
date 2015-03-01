@@ -25,6 +25,11 @@ source("helper_functions/shinyStan_helpers.R", local=TRUE)
 # extract the content of the shinystan_object slots
 source("server_files/utilities/extract_shinystan_object.R", local=TRUE)
 
+
+# File size limit for uploads is 5MB by default. Can be change by
+# shiny.maxRequestSize option: 
+# options(shiny.maxRequestSize = 9*1024^2) # this would allow 9MB, for example
+
 # Begin shinyServer -------------------------------------------------------
 # _________________________________________________________________________
 shinyServer(function(input, output, session) {
@@ -297,5 +302,55 @@ shinyServer(function(input, output, session) {
     }
   })
 
+  
+  nPng  <- reactive({
+    if (!is.null(input$pngs)) {
+      return(nrow(input$pngs))
+    } else {
+      return(NULL)
+    }
+  })
+  observe({
+  if (!is.null(nPng())) {
+  for (i in 1:nPng()) {
+    output[[paste0("png_",i)]] <- renderImage({
+
+#       print(inFile)
+#       
+#       if (is.null(inFile))
+#         return(NULL)
+      
+#       width  <- session$clientData$output_plot2_width
+#       height <- session$clientData$output_plot2_height
+      
+      list(src = input$pngs[[i, 'datapath']],
+           contentType = 'image/png'
+           )
+    })
+  }
+  }
+  })
+#   output$png_1_out <- renderImage({
+#     # input$file1 will be NULL initially. After the user selects
+#     # and uploads a file, it will be a data frame with 'name',
+#     # 'size', 'type', and 'datapath' columns. The 'datapath'
+#     # column will contain the local filenames where the data can
+#     # be found.
+#     validate(need(input$png_1, message = "Waiting for image..."))
+#     
+#     inFile <- input$png_1
+#     print(inFile)
+#     
+#     if (is.null(inFile))
+#       return(NULL)
+#     
+#     width  <- session$clientData$output_plot2_width
+#     height <- session$clientData$output_plot2_height
+#     
+#     list(src = inFile$datapath,
+#          contentType = 'image/png',
+#          width = width,
+#          height = height)
+#   })
 
 }) # End shinyServer
