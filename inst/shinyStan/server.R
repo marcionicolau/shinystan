@@ -303,54 +303,11 @@ shinyServer(function(input, output, session) {
   })
 
   
-  nPng  <- reactive({
-    if (!is.null(input$pngs)) {
-      return(nrow(input$pngs))
-    } else {
-      return(NULL)
-    }
+  output$png_1_out <- renderImage({
+    png_1() 
   })
-  observe({
-  if (!is.null(nPng())) {
-  for (i in 1:nPng()) {
-    output[[paste0("png_",i)]] <- renderImage({
-
-#       print(inFile)
-#       
-#       if (is.null(inFile))
-#         return(NULL)
-      
-#       width  <- session$clientData$output_plot2_width
-#       height <- session$clientData$output_plot2_height
-      
-      list(src = input$pngs[[i, 'datapath']],
-           contentType = 'image/png'
-           )
-    })
-  }
-  }
+  output$gg_1_out <- renderPlot({
+    print(gg_1())
   })
-#   output$png_1_out <- renderImage({
-#     # input$file1 will be NULL initially. After the user selects
-#     # and uploads a file, it will be a data frame with 'name',
-#     # 'size', 'type', and 'datapath' columns. The 'datapath'
-#     # column will contain the local filenames where the data can
-#     # be found.
-#     validate(need(input$png_1, message = "Waiting for image..."))
-#     
-#     inFile <- input$png_1
-#     print(inFile)
-#     
-#     if (is.null(inFile))
-#       return(NULL)
-#     
-#     width  <- session$clientData$output_plot2_width
-#     height <- session$clientData$output_plot2_height
-#     
-#     list(src = inFile$datapath,
-#          contentType = 'image/png',
-#          width = width,
-#          height = height)
-#   })
 
 }) # End shinyServer
