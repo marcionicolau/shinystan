@@ -249,8 +249,31 @@ shinyUI(
                       navlistPanel(
                         "Plots",
                         tabPanel(title = "Add plot",
-                          uiOutput("ui_upload_plot_png_1"),
-                          uiOutput("ui_upload_plot_gg_1"),
+                                 bsCollapse(open = "upload_plot_1_collapse",
+                                   bsCollapsePanel(title = "View options", id = "upload_plot_1_collapse",
+                                                     
+#                                                      fluidRow(
+#                                                        column(6, uiOutput("ui_upload_plot_png_1")), 
+#                                                        column(6, uiOutput("ui_upload_plot_gg_1"))
+#                                                      ),
+fluidRow(
+  column(6,
+         helpText("Choose a .png file to upload or select a ggplot2 object from your R global environment."),
+         wellPanel(style = "background-color: white; ",
+           uiOutput("ui_upload_plot_png_1"),
+           uiOutput("ui_upload_plot_gg_1")
+         )           
+         ),
+  column(6, 
+         helpText("Enter a title for your image."),
+         wellPanel(style = "background-color: white ; ",
+         textInput("upload_plot_title_txt", label = "Title", value = ""))
+  )
+)
+                                                     
+                                                   )
+                                 ),
+                          uiOutput("ui_upload_plot_title"),
                           uiOutput("ui_upload_plot_out_1")
                         ) #,
 #                         tabPanel(title = "Add plot",

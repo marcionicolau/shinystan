@@ -56,6 +56,10 @@
   opacity: 0.8; color: white;
 }
 
+#upload_plot_1_collapse .panel-body{
+  background-color: #F5F5F5;
+}
+
 #stats_table_options_collapse .panel-body{
   background-color: #F5F5F5;
 }

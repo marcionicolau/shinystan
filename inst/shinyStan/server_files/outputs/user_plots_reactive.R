@@ -12,11 +12,15 @@ png_1 <- reactive({
   
   #     width  <- session$clientData$output_plot2_width
   #     height <- session$clientData$output_plot2_height
+#   width <- input$upload_plot_1_width
+#   height <- input$upload_plot_1_height
   
   list(src = inFile$datapath,
-       contentType = 'image/png')
-  #          width = width,
-  #          height = height)
+       contentType = 'image/png',
+       width = 600, height = 400
+  )
+#            width = width,
+#            height = height)
 })
 
 gg_1 <- reactive({
@@ -30,7 +34,4 @@ gg_1 <- reactive({
   
   if (gg == "") return(NULL)
   else get(gg, envir = .GlobalEnv)
-  
-  #     width  <- session$clientData$output_plot2_width
-  #     height <- session$clientData$output_plot2_height
 })

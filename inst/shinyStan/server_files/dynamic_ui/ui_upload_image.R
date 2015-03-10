@@ -1,6 +1,6 @@
 output$ui_upload_plot_png_1 <- renderUI({
   fileInput('my_plots_png_1', 
-            label = 'Choose image to upload (.png)',
+            label = 'Choose a .png file',
             accept = c(
               'image/png'
             )
@@ -10,7 +10,7 @@ output$ui_upload_plot_png_1 <- renderUI({
 output$ui_upload_plot_gg_1 <- renderUI({
   choices <- objects(envir = .GlobalEnv)
   selectizeInput("my_plots_gg_1", 
-                 label = span(style = "color: #428bca;", "Select a ggplot2 object from your R global environment"), 
+                 label = "ggplot2 ojbect", 
                  choices = c("", choices), 
                  options = list(placeholder = "Select an object"))
 })
