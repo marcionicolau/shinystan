@@ -25,6 +25,9 @@ source("helper_functions/shinyStan_helpers.R", local = TRUE)
 # load pp_check plot_names and plot_descriptions
 source("server_files/pp_check/plot_names_descriptions.R", local = TRUE)
 
+# load chooserInput for parameter labels tab
+source("helper_functions/chooser.R")
+
 # give shinystan_object shorter name
 object <- shinystan_object
 show_model_name <- h4(style = "padding: 0px 0px 10px 10px; color: #337ab7; opacity: 0.95; ", paste("Model name:", object@model_name))
@@ -338,6 +341,12 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                       ),  # END TAB: Notes
                       #### TAB: Label parameters ####
                       tabPanel(title = "Label parameters",
+                               h3("Label Parameters"),
+                               chooserInput("param_labels_params", "Parameters to label", "Selected parameters",
+                                            object@param_names, c(), size = 10, multiple = TRUE
+                               ),
+                               textInput("param_labels_labels", "Character vector of labels for the selected parameters", value = "e.g. c('treatment_effect', 'groupA_mean')"),
+                               uiOutput("ui_param_labels_labels"),
                              actionButton("update_param_labels_go", "Save")  
                       ), # END TAB: Label parameters
                       #### TAB: About ####
