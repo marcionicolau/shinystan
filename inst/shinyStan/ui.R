@@ -346,7 +346,6 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                                             object@param_names, c(), size = 10, multiple = TRUE
                                ),
                                textInput("param_labels_labels", "Character vector of labels for the selected parameters", value = "e.g. c('treatment_effect', 'groupA_mean')"),
-                               uiOutput("ui_param_labels_labels"),
                              actionButton("update_param_labels_go", "Save")  
                       ), # END TAB: Label parameters
                       #### TAB: About ####

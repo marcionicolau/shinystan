@@ -324,7 +324,8 @@ function(input, output, session) {
 
   #### Parameter Labels ####
   observeEvent(input$update_param_labels_go, handlerExpr = {
-    update_param_labels()
+    new_labels <- update_param_labels()
+    shinystan_object@param_labels <<- new_labels
     print(paste("Paramter labels saved:  ", format(Sys.time(), "%a %b %d %Y %X")))
   })
 
