@@ -336,6 +336,10 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                                hr(),
                                uiOutput("user_model_info_modal")
                       ),  # END TAB: Notes
+                      #### TAB: Label parameters ####
+                      tabPanel(title = "Label parameters",
+                             actionButton("update_param_labels_go", "Save")  
+                      ), # END TAB: Label parameters
                       #### TAB: About ####
                       tabPanel(title = "About",
                                h4("shinyStan"),

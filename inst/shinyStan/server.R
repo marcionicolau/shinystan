@@ -322,5 +322,12 @@ function(input, output, session) {
   }, bg = "transparent")
 
 
+  #### Parameter Labels ####
+  observeEvent(input$update_param_labels_go, handlerExpr = {
+    update_param_labels()
+    print(paste("Paramter labels saved:  ", format(Sys.time(), "%a %b %d %Y %X")))
+  })
+
+  
 } # End shinyServer
 
