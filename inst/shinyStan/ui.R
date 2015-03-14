@@ -342,9 +342,12 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                       #### TAB: Label parameters ####
                       tabPanel(title = "Label parameters",
                                h3("Label Parameters"),
-                               chooserInput("param_labels_params", "Parameters to label", "Selected parameters",
-                                            object@param_names, c(), size = 10, multiple = TRUE
+                               br(),
+                               strong("Select parameters to label"),
+                               chooserInput("param_labels_params", leftLabel = "Parameters to label", rightLabel = "Selected parameters",
+                                            leftChoices = object@param_names, rightChoices = c(), size = 10, multiple = TRUE
                                ),
+                               br(),
                                textInput("param_labels_labels", "Character vector of labels for the selected parameters", value = "e.g. c('treatment_effect', 'groupA_mean')"),
                              actionButton("update_param_labels_go", "Save")  
                       ), # END TAB: Label parameters
