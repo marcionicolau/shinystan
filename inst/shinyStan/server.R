@@ -134,16 +134,37 @@ function(input, output, session) {
     x <- n_eff_plot()
     suppress_and_print(x)
   }, bg = "transparent")
+  # download plot
+  output$download_n_eff_plot <- downloadHandler(
+    filename = 'shinystan_n_eff.RData',
+    content = function(file) {
+      shinystan_n_eff <- n_eff_plot()
+      save(shinystan_n_eff, file = file)
+  })
   #### PLOT: ratio of mcmc se to posterior sd  ####
   output$mcse_over_sd_plot_out <- renderPlot({
     x <- mcse_over_sd_plot()
     suppress_and_print(x)
   }, bg = "transparent")
+  # download plot
+  output$download_mcse_over_sd_plot <- downloadHandler(
+    filename = 'shinystan_mcse.RData',
+    content = function(file) {
+      shinystan_mcse <- mcse_over_sd_plot()
+      save(shinystan_mcse, file = file)
+  })
   #### PLOT: rhat ####
   output$rhat_plot_out <- renderPlot({
     x <- rhat_plot()
     suppress_and_print(x)
   }, bg = "transparent")
+  # download plot
+  output$download_rhat_plot <- downloadHandler(
+    filename = 'shinystan_mcse.RData',
+    content = function(file) {
+      shinystan_rhat <- rhat_plot()
+      save(shinystan_rhat, file = file)
+  })
   #### TEXT: n_eff warnings ####
   output$n_eff_warnings <- renderText({
     n_eff_warnings()

@@ -105,16 +105,18 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                                         actionLink("btn_open_glossary_copy", "Open glossary", icon = icon("book", lib = "glyphicon"))
                                  )
                                ),
-#                                fluidRow(
-#                                  column(3, splitLayout(includeHTML("html/warnings_options.html"), span("Customize"), cellWidths = c("25%","75%")))
-#                                ),
                                uiOutput("glossary_modal_copy"),
                                uiOutput("ui_rhat_neff_mcse"),
                                hr(),
                                uiOutput("ui_warning_thresholds_customize"),
                                uiOutput("ui_rhat_neff_mcse_warnings"),
-                               conditionalPanel(condition = "input.warnings_options == true",
-                                                uiOutput("ui_warnings_customize"))
+                               br(),
+                               splitLayout(
+                                 downloadButton("download_n_eff_plot", "Save as ggplot2 object"),
+                                 downloadButton("download_mcse_over_sd_plot", "Save as ggplot2 object"),
+                                 downloadButton("download_rhat_plot", "Save as ggplot2 object")
+                               ),
+                               br()
                       ),
                       #### autocorrelation plot ####
                       tabPanel("Autocorrelation", icon = icon("bar-chart-o", "fa-2x"),
