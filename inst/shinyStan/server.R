@@ -160,7 +160,7 @@ function(input, output, session) {
   }, bg = "transparent")
   # download plot
   output$download_rhat_plot <- downloadHandler(
-    filename = 'shinystan_mcse.RData',
+    filename = 'shinystan_rhat.RData',
     content = function(file) {
       shinystan_rhat <- rhat_plot()
       save(shinystan_rhat, file = file)
