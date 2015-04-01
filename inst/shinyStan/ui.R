@@ -99,18 +99,19 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                                br()
                       ),
                       #### Rhat, ESS, MCSE, diagnostics ####
-                      tabPanel("\\((\\hat{R}, n_{eff}, \\text{se}_{mean}) \\text{ diagnostics} \\)", icon = icon("bar-chart-o", "fa-2x"),
+                      tabPanel("\\(\\hat{R}, n_{eff}, \\text{se}_{mean}\\)", icon = icon("bar-chart-o", "fa-2x"),
                                fluidRow(
                                  column(2, 
                                         actionLink("btn_open_glossary_copy", "Open glossary", icon = icon("book", lib = "glyphicon"))
                                  )
                                ),
-                               fluidRow(
-                                 column(3, splitLayout(includeHTML("html/warnings_options.html"), span("Customize"), cellWidths = c("25%","75%")))
-                               ),
+#                                fluidRow(
+#                                  column(3, splitLayout(includeHTML("html/warnings_options.html"), span("Customize"), cellWidths = c("25%","75%")))
+#                                ),
                                uiOutput("glossary_modal_copy"),
                                uiOutput("ui_rhat_neff_mcse"),
                                hr(),
+                               uiOutput("ui_warning_thresholds_customize"),
                                uiOutput("ui_rhat_neff_mcse_warnings"),
                                conditionalPanel(condition = "input.warnings_options == true",
                                                 uiOutput("ui_warnings_customize"))
@@ -262,21 +263,13 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                                hr(),
                                uiOutput("user_model_info_modal")
                       ),  # END TAB: Notes
-                      #### TAB: About ####
-                      tabPanel(title = "About",
-                               uiOutput("ui_about")
-                      ), # END TAB: About
-                      #### TAB: Help ####
-                      tabPanel(title = "Help",
-                               uiOutput("ui_help")
-                      ), # END Help
                       #### TAB: Appearance ####
                       tabPanel("Appearance",
-                               h3("Appearance settings"),
+                               h1("Appearance"),
                                br(),br(),
-                               selectInput("background_texture", "Background texture", choices = c("Plain (white)" = "default", "Subtle" = "subtle",  "Concrete" = "concrete", "White brick" = "whitebrick", "Vignette" = "vignette", "Sweater" = "sweater", "Stucco" = "stucco", "Crumpled paper" = "crumpled", "Green cup" = "greencup"), selected = "default"),
+                               selectInput("background_texture", label = "Background texture", size = 9, selectize = FALSE, choices = c("Plain (white)" = "default", "Subtle" = "subtle",  "Concrete" = "concrete", "White brick" = "whitebrick", "Vignette" = "vignette", "Sweater" = "sweater", "Stucco" = "stucco", "Crumpled paper" = "crumpled", "Green cup" = "greencup"), selected = "default"),
                                br(),br(),
-                               selectInput("body_font", "Font family", 
+                               selectInput("body_font", label = "Font family", size = 9, selectize = FALSE,
                                            choices = c(Default = "default", 
                                                        Arial = "Arial, Helvetica, sans-serif", 
                                                        Corbel = "'Corbel'", 
@@ -288,7 +281,15 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                                                        Verdana = "Verdana, Geneva, sans-serif")),
                                uiOutput("ui_background_texture"),
                                uiOutput("ui_body_font")
-                      )
+                      ),
+                      #### TAB: About ####
+                      tabPanel(title = "About",
+                               uiOutput("ui_about")
+                      ), # END TAB: About
+                      #### TAB: Help ####
+                      tabPanel(title = "Help",
+                               uiOutput("ui_help")
+                      ) # END Help
            ), # END navbarMenu MORE
            
            #### QUIT ####

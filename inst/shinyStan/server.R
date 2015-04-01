@@ -145,23 +145,14 @@ function(input, output, session) {
     suppress_and_print(x)
   }, bg = "transparent")
   #### TEXT: n_eff warnings ####
-  output$n_eff_warnings_title <- renderText({
-    paste0("The following parameters have an effective sample size less than ", input$n_eff_threshold,"% of the total number of samples: ")
-  })
   output$n_eff_warnings <- renderText({
     n_eff_warnings()
   })
   #### TEXT: rhat warnings ####
-  output$rhat_warnings_title <- renderText({
-    paste0("The following parameters have an Rhat value above ", input$rhat_threshold,": ")
-  })
   output$rhat_warnings <- renderText({
     rhat_warnings()
   })
   #### TEXT: mcmc se to posterior sd warnings ####
-  output$mcse_over_sd_warnings_title <- renderText({
-    paste0("The following parameters have a Monte Carlo standard error greater than ", input$mcse_threshold ,"% of the posterior standard deviation:")
-  })
   output$mcse_over_sd_warnings <- renderText({
     mcse_over_sd_warnings()
   })

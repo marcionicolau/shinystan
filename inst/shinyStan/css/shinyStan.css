@@ -168,6 +168,17 @@ body {
 #n_eff_threshold, #rhat_threshold, #mcse_threshold .irs-min, .irs-max {
   color: white ;
 }
+
+/* class for warnings thresholds text to look like slider text */
+.warnings_thresholds{
+    background: none repeat scroll 0 0 #428bca;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 11px;
+    line-height: 1.333;
+    padding: 1px 3px;
+    text-shadow: none;
+    }
 /**************************************/
 
 

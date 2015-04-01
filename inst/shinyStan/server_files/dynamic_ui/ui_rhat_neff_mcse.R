@@ -29,14 +29,14 @@ output$ui_rhat_neff_mcse <- renderUI({
   )
 })
 
+
 output$ui_rhat_neff_mcse_warnings <- renderUI({
   tags$div(
     fluidRow(
-      column(4, strong(textOutput("n_eff_warnings_title"))),
-      column(4, strong(textOutput("mcse_over_sd_warnings_title"))),
-      column(4, strong(textOutput("rhat_warnings_title")))
+      column(4, div(strong("The following parameters have an effective sample size less than "), span(class = "warnings_thresholds", paste0(input$n_eff_threshold, "%")),strong("of the total number of samples: "))),
+      column(4, div(strong("The following parameters have a Monte Carlo standard error greater than "), span(class = "warnings_thresholds", paste0(input$mcse_threshold, "%")), strong("of the posterior standard deviation: "))),
+      column(4, div(strong("The following parameters have an Rhat value above "), span(class = "warnings_thresholds", paste(input$rhat_threshold))))
     ),
-    tags$style(type="text/css", "#n_eff_warnings_title, #rhat_warnings_title, #mcse_over_sd_warnings_title {font-size: 13px;}"),
     br(),
     fluidRow(
       column(4, div(style = "color: #337ab7;", textOutput("n_eff_warnings"))),
