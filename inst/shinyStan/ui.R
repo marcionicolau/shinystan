@@ -98,6 +98,32 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                                ),
                                br()
                       ),
+                      tabPanel("HMC/NUTS plots",
+                                        wellPanel(
+                                          fluidRow(
+                                            column(5, selectInput("diagnostic", label = "Diagnostic", choices = c("Sample information" = "sample", "Step size information" = "stepsize", "Tree depth information" = "treedepth", "N divergent information" = "divergent"))),
+                                            column(3, numericInput("diagnostic_chain", label = "Chain (0 = all)", value = 0, min = 0, max = object@nChains))
+                                          )
+                                        ),
+                                        fluidRow(
+                                          column(6,
+                                                 fluidRow(
+                                                   column(4, offset = 1, sliderInput("diagnostic_interval", label = "Interval", value = 0.5, min = 0, max = 1, step = 0.05))
+                                                 ),
+                                                 fluidRow(
+                                                   column(6, 
+                                                          plotOutput("accept_stat_trace_out", height = "200"),
+                                                          plotOutput("lp_trace_out", height = "200")
+                                                          ),
+                                                   column(6, 
+                                                          plotOutput("accept_stat_hist_out", height = "200"),
+                                                          plotOutput("lp_hist_out", height = "200")
+                                                          )
+                                                 )
+                                                 ),
+                                          column(6, plotOutput("accept_stat_corr_lp_out"))
+                                        )
+                      ),
                       #### Rhat, ESS, MCSE, diagnostics ####
                       tabPanel("\\((\\hat{R}, n_{eff}, \\text{se}_{mean}) \\text{ diagnostics} \\)", icon = icon("bar-chart-o", "fa-2x"),
                                fluidRow(

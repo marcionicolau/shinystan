@@ -328,7 +328,30 @@ function(input, output, session) {
   output$pp_y_vs_avg_rep_out <- renderPlot({
     pp_y_vs_avg_rep()
   }, bg = "transparent")
+  
+  
+  output$accept_stat_trace_out <- renderPlot({
+    x <- suppressMessages(accept_stat_trace())
+    suppress_and_print(x)
+  })
+  output$accept_stat_hist_out <- renderPlot({
+    x <- suppressMessages(accept_stat_hist())
+    suppress_and_print(x)
+  })
+  output$accept_stat_corr_lp_out <- renderPlot({
+    x <- suppressMessages(accept_stat_corr_lp())
+    suppress_and_print(x)
+  })
+  output$lp_trace_out <- renderPlot({
+    x <- suppressMessages(lp_trace())
+    suppress_and_print(x)
+  })
+  output$lp_hist_out <- renderPlot({
+    x <- suppressMessages(lp_hist())
+    suppress_and_print(x)
+  })
 
-
+  
+  
 } # End shinyServer
 
