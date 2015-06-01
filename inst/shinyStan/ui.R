@@ -75,31 +75,33 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
            tabPanel(title = "Diagnose", icon = icon("medkit"),
                     tabsetPanel(
                       #### sampler parameters ####
-                      tabPanel("HMC/NUTS", icon = icon("table", "fa-2x"),
-                               actionLink("btn_open_glossary_nuts", "Open glossary", icon = icon("book", lib = "glyphicon")),
-                               uiOutput("glossary_modal_nuts"),
+                      tabPanel("HMC/NUTS (stats)",
+                               actionLink("btn_open_nuts_glossary", "Open glossary", icon = icon("book", lib = "glyphicon")),
+                               uiOutput("nuts_glossary_modal"),
                                h2("Summary of sampler parameters"),
                                uiOutput("ui_sampler_stats_customize"),
                                DT::dataTableOutput("sampler_summary"),
                                br()
                       ),
-                      tabPanel("HMC/NUTS plots",
-                               numericInput("diagnostic_chain", label = "Chain (0 = all)", value = 0, min = 0, max = object@nChains),
-                               sliderInput("diagnostic_interval", label = "Trace plot interval", value = 0.5, min = 0, max = 1, step = 0.05),
-                               navlistPanel(
-                                 tabPanel("Sample",
-                                          uiOutput("ui_diagnostics_sample")
-                                 ),
-                                 tabPanel("Step size"),
-                                 tabPanel("Tree depth & N divergent",
-                                          uiOutput("ui_diagnostics_td_divergent")
-                                          ),
-                                 well = FALSE,
-                                 widths = c(2, 10)
+                      tabPanel("HMC/NUTS (plots)",
+                               div(style = "width: 100px;", numericInput("diagnostic_chain", label = "Chain (0 = all)", value = 0, min = 0, max = object@nChains)),
+                               navlistPanel(id = "diagnostics_navlist",
+                                            tabPanel("Sample information",
+                                                     uiOutput("ui_diagnostics_sample")
+                                            ),
+                                            tabPanel("Tree depth & N divergent information",
+                                                     uiOutput("ui_diagnostics_td_divergent")
+                                            ),
+                                            tabPanel("Step size information"),
+                                            tabPanel("WTF?",
+                                                     uiOutput("ui_diagnostics_help")
+                                                     ),
+                                            well = FALSE,
+                                            widths = c(2, 10)
                                )
                       ),
                       #### Rhat, ESS, MCSE, diagnostics ####
-                      tabPanel("\\((\\hat{R}, n_{eff}, \\text{se}_{mean}) \\text{ diagnostics} \\)", icon = icon("bar-chart-o", "fa-2x"),
+                      tabPanel("\\(\\hat{R}, n_{eff}, \\text{se}_{mean}\\)", # icon = icon("bar-chart-o", "fa-2x"),
                                fluidRow(
                                  column(2, 
                                         actionLink("btn_open_glossary_copy", "Open glossary", icon = icon("book", lib = "glyphicon"))
@@ -116,7 +118,7 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                                                 uiOutput("ui_warnings_customize"))
                       ),
                       #### autocorrelation plot ####
-                      tabPanel("Autocorrelation", icon = icon("bar-chart-o", "fa-2x"),
+                      tabPanel("Autocorrelation", # icon = icon("bar-chart-o", "fa-2x"),
                                conditionalPanel(condition = "input.ac_options == true",
                                                 uiOutput("ui_autocorr_customize")
                                ),
@@ -129,7 +131,7 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                                plotOutput("autocorr_plot_out")
                       ),
                       #### multiparameter trace plots ####
-                      tabPanel("Trace", icon = icon("bar-chart-o", "fa-2x"),
+                      tabPanel("Trace", # icon = icon("bar-chart-o", "fa-2x"),
                                wellPanel(
                                  fluidRow(
                                    column(6, selectizeInput("multi_trace_params", width = '100%', label = h5("Select or enter parameter names"), choices = .make_param_list_with_groups(object), multiple = TRUE)),
@@ -143,7 +145,7 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                                br()
                       ),
                       #### PPcheck ####
-                      tabPanel(title = "PPcheck", icon = icon("bar-chart-o", "fa-2x"),
+                      tabPanel(title = "PPcheck", # icon = icon("bar-chart-o", "fa-2x"),
                                h2("Graphical posterior predictive checks"),
                                uiOutput("ui_ppcheck_navlist")
                       ) # End PPCHECK

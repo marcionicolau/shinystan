@@ -324,8 +324,8 @@ function(input, output, session) {
     x <- suppressMessages(accept_stat_hist())
     suppress_and_print(x)
   })
-  output$accept_stat_corr_lp_out <- renderPlot({
-    x <- suppressMessages(accept_stat_corr_lp())
+  output$accept_stat_vs_lp_out <- renderPlot({
+    x <- suppressMessages(accept_stat_vs_lp())
     suppress_and_print(x)
   })
   output$lp_trace_out <- renderPlot({
@@ -356,6 +356,23 @@ function(input, output, session) {
     x <- suppressMessages(treedepth_ndivergent1_hist())
     suppress_and_print(x)
   })
+  output$treedepth_vs_lp_out <- renderPlot({
+    x <- suppressMessages(treedepth_vs_lp())
+    suppress_and_print(x)
+  })
+  output$ndivergent_vs_lp_out <- renderPlot({
+    x <- suppressMessages(ndivergent_vs_lp())
+    suppress_and_print(x)
+  })
+  output$treedepth_vs_accept_stat_out <- renderPlot({
+    x <- suppressMessages(treedepth_vs_accept_stat())
+    suppress_and_print(x)
+  })
+  output$ndivergent_vs_accept_stat_out <- renderPlot({
+    x <- suppressMessages(ndivergent_vs_accept_stat())
+    suppress_and_print(x)
+  })
+  
   
 #   #### PLOT: sampler params ####
 #   output$sampler_plot_treedepth_out <- renderPlot({
