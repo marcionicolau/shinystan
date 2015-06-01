@@ -110,21 +110,7 @@ function(input, output, session) {
   )
   )
   })
-  #### PLOT: sampler params ####
-  output$sampler_plot_treedepth_out <- renderPlot({
-    sampler_plot_treedepth()
-  }, bg = "transparent")
-  output$sampler_plot_treedepth0_out <- renderPlot({
-    sampler_plot_treedepth0()
-  }, bg = "transparent")
-  output$sampler_plot_treedepth1_out <- renderPlot({
-    sampler_plot_treedepth1()
-  }, bg = "transparent")
-  output$sampler_plot_divergent_out <- renderPlot({
-    x <- sampler_plot_divergent()
-    suppress_and_print(x)
-  }, bg = "transparent")
-  
+
   #### PLOT: multiple parameters ####
   output$plot_param_vertical_out <- renderPlot({
     plot_param_vertical()
@@ -350,6 +336,42 @@ function(input, output, session) {
     x <- suppressMessages(lp_hist())
     suppress_and_print(x)
   })
+  output$treedepth_trace_out <- renderPlot({
+    x <- suppressMessages(treedepth_trace())
+    suppress_and_print(x)
+  })
+  output$ndivergent_trace_out <- renderPlot({
+    x <- suppressMessages(ndivergent_trace())
+    suppress_and_print(x)
+  })
+  output$treedepth_ndivergent_hist_out <- renderPlot({
+    x <- suppressMessages(treedepth_ndivergent_hist())
+    suppress_and_print(x)
+  })
+  output$treedepth_ndivergent0_hist_out <- renderPlot({
+    x <- suppressMessages(treedepth_ndivergent0_hist())
+    suppress_and_print(x)
+  })
+  output$treedepth_ndivergent1_hist_out <- renderPlot({
+    x <- suppressMessages(treedepth_ndivergent1_hist())
+    suppress_and_print(x)
+  })
+  
+#   #### PLOT: sampler params ####
+#   output$sampler_plot_treedepth_out <- renderPlot({
+#     sampler_plot_treedepth()
+#   }, bg = "transparent")
+#   output$sampler_plot_treedepth0_out <- renderPlot({
+#     sampler_plot_treedepth0()
+#   }, bg = "transparent")
+#   output$sampler_plot_treedepth1_out <- renderPlot({
+#     sampler_plot_treedepth1()
+#   }, bg = "transparent")
+#   output$sampler_plot_divergent_out <- renderPlot({
+#     x <- sampler_plot_divergent()
+#     suppress_and_print(x)
+#   }, bg = "transparent")
+#   
 
   
   

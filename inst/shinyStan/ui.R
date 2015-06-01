@@ -81,48 +81,22 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                                h2("Summary of sampler parameters"),
                                uiOutput("ui_sampler_stats_customize"),
                                DT::dataTableOutput("sampler_summary"),
-                               hr(),
-                               splitLayout(
-                                 h4("n_divergent (post-warmup)"),
-                                 h4("treedepth (post-warmup)"),
-                                 cellWidths = c("33%", "67%")
-                               ),
-                               splitLayout(
-                                 plotOutput("sampler_plot_divergent_out", height = "150px"),
-                                 splitLayout(plotOutput("sampler_plot_treedepth_out", height = "150px"),
-                                             plotOutput("sampler_plot_treedepth0_out", height = "150px"),
-                                             plotOutput("sampler_plot_treedepth1_out", height = "150px")
-                                 ),
-                                 cellWidths = c("33%", "67%"),
-                                 cellArgs = list(class = "plot_hover_shadow")
-                               ),
                                br()
                       ),
                       tabPanel("HMC/NUTS plots",
-                                        wellPanel(
-                                          fluidRow(
-                                            column(5, selectInput("diagnostic", label = "Diagnostic", choices = c("Sample information" = "sample", "Step size information" = "stepsize", "Tree depth information" = "treedepth", "N divergent information" = "divergent"))),
-                                            column(3, numericInput("diagnostic_chain", label = "Chain (0 = all)", value = 0, min = 0, max = object@nChains))
-                                          )
-                                        ),
-                                        fluidRow(
-                                          column(6,
-                                                 fluidRow(
-                                                   column(4, offset = 1, sliderInput("diagnostic_interval", label = "Interval", value = 0.5, min = 0, max = 1, step = 0.05))
-                                                 ),
-                                                 fluidRow(
-                                                   column(6, 
-                                                          plotOutput("accept_stat_trace_out", height = "200"),
-                                                          plotOutput("lp_trace_out", height = "200")
-                                                          ),
-                                                   column(6, 
-                                                          plotOutput("accept_stat_hist_out", height = "200"),
-                                                          plotOutput("lp_hist_out", height = "200")
-                                                          )
-                                                 )
-                                                 ),
-                                          column(6, plotOutput("accept_stat_corr_lp_out"))
-                                        )
+                               numericInput("diagnostic_chain", label = "Chain (0 = all)", value = 0, min = 0, max = object@nChains),
+                               sliderInput("diagnostic_interval", label = "Trace plot interval", value = 0.5, min = 0, max = 1, step = 0.05),
+                               navlistPanel(
+                                 tabPanel("Sample",
+                                          uiOutput("ui_diagnostics_sample")
+                                 ),
+                                 tabPanel("Step size"),
+                                 tabPanel("Tree depth & N divergent",
+                                          uiOutput("ui_diagnostics_td_divergent")
+                                          ),
+                                 well = FALSE,
+                                 widths = c(2, 10)
+                               )
                       ),
                       #### Rhat, ESS, MCSE, diagnostics ####
                       tabPanel("\\((\\hat{R}, n_{eff}, \\text{se}_{mean}) \\text{ diagnostics} \\)", icon = icon("bar-chart-o", "fa-2x"),
