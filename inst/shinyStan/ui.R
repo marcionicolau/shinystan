@@ -84,16 +84,26 @@ navbarPage(title = strong(style = "color: #f9dd67; ", "shinyStan"),
                                br()
                       ),
                       tabPanel("HMC/NUTS (plots)",
-                               div(style = "width: 100px;", numericInput("diagnostic_chain", label = "Chain (0 = all)", value = 0, min = 0, max = object@nChains)),
+                               # br(),
+                               h4(textOutput("diagnostic_chain_text")),
+                               div(style = "width: 100px;", numericInput("diagnostic_chain", label = NULL, value = 0, min = 0, max = object@nChains)),
                                navlistPanel(id = "diagnostics_navlist",
                                             tabPanel("Sample information",
+                                                     h2("Sample information"),
                                                      uiOutput("ui_diagnostics_sample")
                                             ),
-                                            tabPanel("Tree depth & N divergent information",
-                                                     uiOutput("ui_diagnostics_td_divergent")
+                                            tabPanel("N divergent information",
+                                                     h2("N divergent information"),
+                                                     uiOutput("ui_diagnostics_ndivergent")
                                             ),
-                                            tabPanel("Step size information"),
-                                            tabPanel("WTF?",
+                                            tabPanel("Tree depth information",
+                                                     h2("Tree depth information"),
+                                                     uiOutput("ui_diagnostics_treedepth")
+                                                     ),
+                                            tabPanel("Step size information",
+                                                     h2("Step size information")
+                                                     ),
+                                            tabPanel("wtf?",
                                                      uiOutput("ui_diagnostics_help")
                                                      ),
                                             well = FALSE,

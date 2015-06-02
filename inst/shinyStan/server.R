@@ -89,7 +89,7 @@ function(input, output, session) {
     rownames = FALSE,
     processing = TRUE,
     scrollX = TRUE,
-    scrollY = "200px",
+    scrollY = 400,
     # autoWidth = TRUE,
     scrollCollapse = TRUE,
     paging = FALSE,
@@ -316,6 +316,12 @@ function(input, output, session) {
   }, bg = "transparent")
   
   
+  
+  output$diagnostic_chain_text <- renderText({
+    chain <- input$diagnostic_chain
+    if (chain == 0) return("All chains")
+    paste("Chain", chain)
+  })
   output$accept_stat_trace_out <- renderPlot({
     x <- suppressMessages(accept_stat_trace())
     suppress_and_print(x)

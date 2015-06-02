@@ -1,3 +1,5 @@
+small_axis_labs <- theme(axis.title = element_text(face = "bold", size = 11))
+
 # post-warmup sampler parameters ------------------------------------------
 sp_nuts_check <- reactive({
   validate(
@@ -41,7 +43,7 @@ stepsize_pw <- reactive({
 })
 
 .sampler_param_vs_lp <- function(lp, sp, sp_lab, chain = 0, violin = FALSE) {
-  thm <- theme_classic() %+replace% (no_lgnd + axis_color + axis_labs + fat_axis + transparent)
+  thm <- theme_classic() %+replace% (no_lgnd + axis_color + small_axis_labs + fat_axis + transparent)
   xy_labs <- labs(y = "Log Posterior", x = if (missing(sp_lab)) NULL else sp_lab)
   df <- data.frame(sp = do.call("c", sp), lp = c(lp))
   
@@ -68,7 +70,7 @@ stepsize_pw <- reactive({
 }
 
 .lp_hist <- function(df, chain = 0) {
-  thm <- theme_classic() %+replace% (no_lgnd + axis_color + axis_labs + fat_axis + no_yaxs + transparent)
+  thm <- theme_classic() %+replace% (no_lgnd + axis_color + small_axis_labs + fat_axis + no_yaxs + transparent)
   mdf <- reshape2::melt(df, id.vars = "iterations")
   base <- ggplot(mdf, aes(x = value)) + 
     geom_histogram(binwidth = diff(range(mdf$value))/30) + 
@@ -91,7 +93,7 @@ stepsize_pw <- reactive({
 
 .lp_trace <- function(df, chain = 0) {
 
-  thm <- theme_classic() %+replace% (no_lgnd + axis_color + axis_labs + fat_axis + transparent)
+  thm <- theme_classic() %+replace% (no_lgnd + axis_color + small_axis_labs + fat_axis + transparent)
   xy_labs <- labs(x = "Iteration", y = "Log Posterior")
   
   mdf <- reshape2::melt(df, id.vars = "iterations")
@@ -127,7 +129,7 @@ stepsize_pw <- reactive({
 }
 
 .accept_stat_hist <- function(df, chain = 0) {
-  thm <- theme_classic() %+replace% (no_lgnd + axis_color + axis_labs + fat_axis + no_yaxs + transparent)
+  thm <- theme_classic() %+replace% (no_lgnd + axis_color + small_axis_labs + fat_axis + no_yaxs + transparent)
   
   mdf <- reshape2::melt(df, id.vars = "iterations")
   
@@ -152,7 +154,7 @@ stepsize_pw <- reactive({
 }
 
 .accept_stat_trace <- function(df, chain = 0) {
-  thm <- theme_classic() %+replace% (no_lgnd + axis_color + axis_labs + fat_axis + transparent)
+  thm <- theme_classic() %+replace% (no_lgnd + axis_color + small_axis_labs + fat_axis + transparent)
   xy_labs <- labs(x = "Iteration", y = "Mean Metropolis Acceptance")
   
   mdf <- reshape2::melt(df, id.vars = "iterations")
@@ -188,7 +190,7 @@ stepsize_pw <- reactive({
 }
 
 .accept_stat_corr_lp <- function(metrop, lp, chain = 0) {
-  thm <- theme_classic() %+replace% (no_lgnd + axis_color + axis_labs + fat_axis + transparent)
+  thm <- theme_classic() %+replace% (no_lgnd + axis_color + small_axis_labs + fat_axis + transparent)
   xy_labs <- labs(x = "Mean Metropolis Acceptance", y = "Log Posterior")
   df <- data.frame(metrop = do.call("c", metrop), lp = c(lp))
   
@@ -204,7 +206,7 @@ stepsize_pw <- reactive({
 
 .treedepth_ndivergent_hist <- function(df_td, df_nd, chain = 0, divergent = c("All", 0, 1)) {
   plot_title <- theme(plot.title = element_text(size = 11, hjust = 0))
-  plot_theme <- theme_classic() %+replace% (axis_color + axis_labs + fat_axis + no_yaxs + plot_title + lgnd_right + transparent) 
+  plot_theme <- theme_classic() %+replace% (axis_color + small_axis_labs + fat_axis + no_yaxs + plot_title + lgnd_right + transparent) 
   x_lab <- if (divergent == "All") "Treedepth (All)" else paste0("Treedepth (N Divergent = ", divergent,")")
   plot_labs <- labs(x = x_lab, y = "") 
   
@@ -227,7 +229,7 @@ stepsize_pw <- reactive({
 }
 
 .ndivergent_trace <- function(df, chain = 0) {
-  thm <- theme_classic() %+replace% (no_lgnd + axis_color + axis_labs + fat_axis + transparent)
+  thm <- theme_classic() %+replace% (no_lgnd + axis_color + small_axis_labs + fat_axis + transparent)
   xy_labs <- labs(x = "Iteration", y = "N Divergent")
   y_scale <- scale_y_continuous(breaks = c(0,1))
   
@@ -239,19 +241,25 @@ stepsize_pw <- reactive({
     y_scale +
     thm
   
-  if (chain == 0) return(base + geom_segment(aes(color = variable), size = 0.25))
-  
+  if (chain == 0) {
+    n_divergent <- sum(mdf$value)
+    graph <- base + 
+      geom_segment(aes(color = variable), size = 0.25) + 
+      ggtitle(paste(n_divergent, "divergent post-warmup iterations")) 
+    return(graph)
+  }
   chain_data <- subset(mdf, variable == paste0("chain:",chain))
+  n_divergent <- sum(chain_data$value)
   base +
     geom_segment(size = 0.25) + 
     geom_segment(data = chain_data, 
-                 aes(x = iterations, xend = iterations,
-                     y = 0, yend = value), size = 0.5, 
-                 color = "skyblue", alpha = 0.85)
+                 aes(x = iterations, xend = iterations, y = 0, yend = value), size = 0.5, 
+                 color = "skyblue") + 
+    ggtitle(paste(n_divergent, "divergent post-warmup iterations in Chain", chain)) 
 }
 
 .treedepth_trace <- function(df, chain = 0) {
-  thm <- theme_classic() %+replace% (no_lgnd + axis_color + axis_labs + fat_axis + transparent)
+  thm <- theme_classic() %+replace% (no_lgnd + axis_color + small_axis_labs + fat_axis + transparent)
   xy_labs <- labs(x = "Iteration", y = "Tree Depth")
   
   mdf <- reshape2::melt(df, id.vars = "iterations")
@@ -288,15 +296,15 @@ stepsize_pw <- reactive({
 }
 
 .treedepth_vs_accept_stat <- function(df_td, df_as, chain = 0) {
-  thm <- theme_classic() %+replace% (no_lgnd + axis_color + axis_labs + fat_axis + transparent)
-  xy_labs <- labs(y = "Mean Metrop. Acceptance", x = "Treedepth")
+  thm <- theme_classic() %+replace% (no_lgnd + axis_color + small_axis_labs + fat_axis + transparent)
+  xy_labs <- labs(y = "Mean Metropolis Acceptance", x = "Treedepth")
   df <- data.frame(td = do.call("c", df_td), as = do.call("c", df_as))
   df$td <- as.factor(df$td)
   
   base <- ggplot(df, aes(td,as)) + xy_labs + thm 
   
   if (chain == 0) {
-    graph <- base + geom_violin() 
+    graph <- base + geom_violin(fill = "black") 
     return(graph)
   }
   chain_data <- data.frame(td = as.factor(df_td[, chain]), as = df_as[, chain])
@@ -306,15 +314,15 @@ stepsize_pw <- reactive({
 }
 
 .ndivergent_vs_accept_stat <- function(df_nd, df_as, chain = 0) {
-  thm <- theme_classic() %+replace% (no_lgnd + axis_color + axis_labs + fat_axis + transparent)
-  xy_labs <- labs(y = "Mean Metrop. Acceptance", x = "N Divergent")
+  thm <- theme_classic() %+replace% (no_lgnd + axis_color + small_axis_labs + fat_axis + transparent)
+  xy_labs <- labs(y = "Mean Metropolis Acceptance", x = "N Divergent")
   df <- data.frame(nd = do.call("c", df_nd), as = do.call("c", df_as))
   df$nd <- as.factor(df$nd)
   
   base <- ggplot(df, aes(nd,as)) + xy_labs + thm 
   
   if (chain == 0) {
-    graph <- base + geom_violin() 
+    graph <- base + geom_violin(fill = "black") 
     return(graph)
   }
   chain_data <- data.frame(nd = as.factor(df_nd[, chain]), as = df_as[, chain])
